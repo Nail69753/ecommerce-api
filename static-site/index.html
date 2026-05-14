@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShopAPI — Cloud E-Commerce REST API</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f8fafc;color:#1e293b}
+    header{background:linear-gradient(135deg,#1e40af,#3b82f6);color:white;padding:60px 24px;text-align:center}
+    header h1{font-size:2.6rem;font-weight:700}header p{margin-top:12px;opacity:.9;max-width:540px;margin-left:auto;margin-right:auto}
+    .badges{margin-top:18px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+    .badge{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 14px;font-size:.82rem}
+    main{max-width:960px;margin:0 auto;padding:40px 20px 80px}
+    section{margin-bottom:48px}h2{font-size:1.4rem;font-weight:700;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #e2e8f0}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
+    .card{background:white;border:1px solid #e2e8f0;border-radius:12px;padding:20px}.card .icon{font-size:1.8rem;margin-bottom:8px}
+    .card h3{font-size:.95rem;font-weight:600;margin-bottom:6px}.card p{font-size:.83rem;color:#64748b}
+    table{width:100%;border-collapse:collapse;background:white;border-radius:12px;overflow:hidden;border:1px solid #e2e8f0;font-size:.88rem;margin-bottom:24px}
+    thead{background:#1e40af;color:white}th{padding:11px 14px;text-align:left}td{padding:10px 14px;border-bottom:1px solid #f1f5f9}tr:last-child td{border-bottom:none}
+    .m{display:inline-block;font-weight:700;font-size:.75rem;padding:2px 7px;border-radius:4px;font-family:monospace;min-width:50px;text-align:center}
+    .GET{background:#dcfce7;color:#166534}.POST{background:#dbeafe;color:#1e40af}.PUT{background:#fef9c3;color:#854d0e}.DELETE{background:#fee2e2;color:#991b1b}
+    .path{font-family:monospace;font-size:.85rem;color:#1e40af}pre{background:#1e293b;color:#e2e8f0;border-radius:10px;padding:16px;overflow-x:auto;font-size:.82rem;line-height:1.55}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:600px){.grid2{grid-template-columns:1fr}}
+    footer{text-align:center;padding:28px;font-size:.83rem;color:#94a3b8;border-top:1px solid #e2e8f0}
+  </style>
+</head>
+<body>
+<header>
+  <h1>🛍️ ShopAPI</h1>
+  <p>Cloud-based e-commerce REST API — product catalogue with orders, JWT authentication, full CRUD.</p>
+  <div class="badges"><span class="badge">Node.js + Express</span><span class="badge">JSON File DB</span><span class="badge">JWT Auth</span><span class="badge">Swagger/OpenAPI</span><span class="badge">14 Unit Tests</span></div>
+</header>
+<main>
+  <section>
+    <h2>Overview</h2>
+    <div class="cards">
+      <div class="card"><div class="icon">🛒</div><h3>Products</h3><p>Full CRUD — list, view, create, update, delete with stock tracking.</p></div>
+      <div class="card"><div class="icon">📦</div><h3>Orders</h3><p>Place orders with multiple items, track status, cancel with stock restore.</p></div>
+      <div class="card"><div class="icon">🔐</div><h3>JWT Auth</h3><p>Register & login. Mutating endpoints require a Bearer token.</p></div>
+      <div class="card"><div class="icon">📄</div><h3>Swagger UI</h3><p>Interactive docs at <code>/api-docs</code> — try every endpoint live.</p></div>
+    </div>
+  </section>
+  <section>
+    <h2>Endpoints</h2>
+    <table><thead><tr><th>Method</th><th>Path</th><th>Description</th><th>Auth</th><th>Responses</th></tr></thead><tbody>
+      <tr><td><span class="m POST">POST</span></td><td class="path">/auth/register</td><td>Register new user</td><td>—</td><td>201 · 422</td></tr>
+      <tr><td><span class="m POST">POST</span></td><td class="path">/auth/login</td><td>Login, get JWT</td><td>—</td><td>200 · 401</td></tr>
+      <tr><td><span class="m GET">GET</span></td><td class="path">/products</td><td>List all products</td><td>—</td><td>200</td></tr>
+      <tr><td><span class="m GET">GET</span></td><td class="path">/products/:id</td><td>Get product by ID</td><td>—</td><td>200 · 404</td></tr>
+      <tr><td><span class="m POST">POST</span></td><td class="path">/products</td><td>Create product</td><td>🔒</td><td>201 · 401 · 422</td></tr>
+      <tr><td><span class="m PUT">PUT</span></td><td class="path">/products/:id</td><td>Update product</td><td>🔒</td><td>200 · 401 · 404</td></tr>
+      <tr><td><span class="m DELETE">DELETE</span></td><td class="path">/products/:id</td><td>Delete product</td><td>🔒</td><td>204 · 401 · 404</td></tr>
+      <tr><td><span class="m GET">GET</span></td><td class="path">/orders</td><td>List my orders</td><td>🔒</td><td>200 · 401</td></tr>
+      <tr><td><span class="m GET">GET</span></td><td class="path">/orders/:id</td><td>Get order by ID</td><td>🔒</td><td>200 · 403 · 404</td></tr>
+      <tr><td><span class="m POST">POST</span></td><td class="path">/orders</td><td>Place an order</td><td>🔒</td><td>201 · 422</td></tr>
+      <tr><td><span class="m PUT">PUT</span></td><td class="path">/orders/:id</td><td>Update order status</td><td>🔒</td><td>200 · 422</td></tr>
+      <tr><td><span class="m DELETE">DELETE</span></td><td class="path">/orders/:id</td><td>Cancel order</td><td>🔒</td><td>204 · 422</td></tr>
+    </tbody></table>
+  </section>
+  <section>
+    <h2>Examples</h2>
+    <div class="grid2">
+      <div><h3 style="margin-bottom:8px">Register</h3><pre>POST /auth/register
+{"username":"john","email":"john@ex.com","password":"secret123"}
+→ 201 {"message":"User registered successfully"}</pre></div>
+      <div><h3 style="margin-bottom:8px">Login</h3><pre>POST /auth/login
+{"email":"john@ex.com","password":"secret123"}
+→ 200 {"token":"eyJhbGci...","user":{...}}</pre></div>
+      <div><h3 style="margin-bottom:8px">Get Products</h3><pre>GET /products
+→ 200 [{"id":1,"name":"Laptop Pro","price":1299.99,...}]</pre></div>
+      <div><h3 style="margin-bottom:8px">Place Order</h3><pre>POST /orders  (Bearer token required)
+{"items":[{"product_id":1,"quantity":1}]}
+→ 201 {"id":1,"status":"pending","total_price":1299.99}</pre></div>
+    </div>
+  </section>
+  <section>
+    <h2>Run Locally</h2>
+    <pre>cd ecommerce-api
+npm install
+node server.js
+# API:   http://localhost:3000
+# Docs:  http://localhost:3000/api-docs
+# Tests: npm test</pre>
+  </section>
+</main>
+<footer>ShopAPI — Cloud-based E-Commerce REST API — Final Project</footer>
+</body>
+</html>
